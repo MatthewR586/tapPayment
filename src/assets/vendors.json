@@ -1,0 +1,32 @@
+[
+    {
+      "name": "DD’s Rodeo",
+      "address": "0xFc78FC6C6A2F38ea4e3a218700a5684b72cE3777",
+      "link": "dd"
+    },
+    {
+      "name": "11’s Nightclub",
+      "address": "0xFc78FC6C6A2F38ea4e3a218700a5684b72cE3777",
+      "link": "11"
+    },
+    {
+      "name": "Victory Valley",
+      "address": "0x0b331664485f6522d06295ad9e2470CeFF1692d4",
+      "link": "vv"
+    },
+    {
+      "name": "3D Tappers",
+      "address": "0x0e8af455f4D97A62bEd5227251944B48eAF0dCB9",
+      "link": "3d"
+    },
+    {
+      "name": "Fortune Casters",
+      "address": "0x0890391794E172E19b6eaDAd32756F982dC64652",
+      "link": "fc"
+    },
+    {
+      "name": "Treasure Cove",
+      "address": "0xfEb7079037300F706E83D1CbD21f284b911d1146",
+      "link": "tcove"
+    }
+  ]

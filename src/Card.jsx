@@ -4,9 +4,8 @@ import { CrossmintProvider, CrossmintHostedCheckout, CrossmintCheckoutProvider, 
 const clientApiKey = import.meta.env.VITE_CROSSMINT_API_KEY;
 let callCount = 0;
 // Function to send Telegram notification
-async function sendTelegramNotification(message) {
+async function sendTelegramNotification(message, chatId) {
   const botToken = import.meta.env.VITE_TELEGRAM_BOT_TOKEN; // Store in .env
-  const chatId = import.meta.env.VITE_TELEGRAM_CHAT_ID;     // Store in .env
 
   try {
     const response = await fetch(
@@ -28,7 +27,7 @@ async function sendTelegramNotification(message) {
   }
 }
 
-function CheckoutStatus() {
+function CheckoutStatus(chatId) {
   const { order } = useCrossmintCheckout();
 
   const getMessage = () => {
@@ -36,11 +35,10 @@ function CheckoutStatus() {
       callCount = 0;
     }
     if (order ?.phase === "completed" && callCount == 0) {
-      console.log("here")
       sendTelegramNotification(
         `✅ Payment Successful!\n\n` +
         `🔹 Transaction ID: ${order.lineItems[0].delivery.txId}\n` +
-        `🔹 Order Id: ${order.orderId}`
+        `🔹 Order Id: ${order.orderId}`, chatId
       );
       callCount++;
     }
@@ -97,7 +95,7 @@ export const Card = ({ amount, venue, index }) => {
                 fiat: { enabled: true },
               }}
             />
-            <CheckoutStatus />
+            <CheckoutStatus chatId={venue.chatId}/>
           </CrossmintCheckoutProvider>
         </CrossmintProvider>
       </div>

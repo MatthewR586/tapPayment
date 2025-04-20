@@ -3,36 +3,36 @@
       "name": "DD’s Rodeo",
       "address": "0xFc78FC6C6A2F38ea4e3a218700a5684b72cE3777",
       "link": "dd",
-      "chatId": "-4776176329"
+      "chatId": -4776176329
     },
     {
       "name": "11’s Nightclub",
-      "address": "0xFc78FC6C6A2F38ea4e3a218700a5684b72cE3777",
+      "address": "0xaE3A14586fC6F4ad8662B24c2a7a942D71Bfef6f",
       "link": "11",
-      "chatId": "-4691203536"
+      "chatId": -4691203536
     },
     {
       "name": "Victory Valley",
-      "address": "0x0b331664485f6522d06295ad9e2470CeFF1692d4",
+      "address": "0xa42aE09fBd2B1Eb6aFf1CD2a54F4dDcFF070a15c",
       "link": "vv",
-      "chatId": "-4778312363"
+      "chatId": -4778312363
     },
     {
       "name": "3D Tappers",
-      "address": "0x0e8af455f4D97A62bEd5227251944B48eAF0dCB9",
+      "address": "0x27af4341bC5440b95a547F10ED9F121ba15688B2",
       "link": "3d",
-      "chatId": "-4619695685"
+      "chatId": -4619695685
     },
     {
       "name": "Fortune Casters",
-      "address": "0x0890391794E172E19b6eaDAd32756F982dC64652",
+      "address": "0xA197c91DBf23BfC673dE202F36EAe53aFaBE2bc7",
       "link": "fc",
-      "chatId": "-4704347082"
+      "chatId": -4704347082
     },
     {
       "name": "Treasure Cove",
-      "address": "0xfEb7079037300F706E83D1CbD21f284b911d1146",
+      "address": "0x0931ad18E9be1ffE65951579B153cb1d064f245E",
       "link": "tcove",
-      "chatId": "-4601454025"
+      "chatId": -4601454025
     }
   ]

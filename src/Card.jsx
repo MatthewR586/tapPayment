@@ -27,7 +27,7 @@ async function sendTelegramNotification(message, chatId) {
   }
 }
 
-function CheckoutStatus(chatId) {
+function CheckoutStatus(chatId, amount) {
   const { order } = useCrossmintCheckout();
 
   const getMessage = () => {
@@ -38,6 +38,7 @@ function CheckoutStatus(chatId) {
       sendTelegramNotification(
         `✅ Payment Successful!\n\n` +
         `🔹 Transaction ID: ${order.lineItems[0].delivery.txId}\n` +
+        `🔹 Amount: ${amount}\n`
         `🔹 Order Id: ${order.orderId}`, chatId
       );
       callCount++;
@@ -95,7 +96,7 @@ export const Card = ({ amount, venue, index }) => {
                 fiat: { enabled: true },
               }}
             />
-            <CheckoutStatus chatId={venue.chatId}/>
+            <CheckoutStatus chatId={venue.chatId} amount={amount * quantity + 2}/>
           </CrossmintCheckoutProvider>
         </CrossmintProvider>
       </div>

@@ -26,7 +26,6 @@ window.Buffer = Buffer; // needed to use `signSmartContractData` in browser
 export default function WertCheckout() {
   const { address } = useParams();
   const venue = venuesData.find((v) => {
-    console.log({ address, v });
     return v.link.toLowerCase() === (address ? address.toLowerCase() : "");
   });
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useRef, useState } from "react";
 import { CrossmintProvider, CrossmintHostedCheckout, CrossmintCheckoutProvider, useCrossmintCheckout } from "@crossmint/client-sdk-react-ui";
 
 const clientApiKey = import.meta.env.VITE_CROSSMINT_API_KEY;
@@ -29,21 +29,21 @@ async function sendTelegramNotification(message, chatId) {
 
 function CheckoutStatus({chatId, amount}) {
   const { order } = useCrossmintCheckout();
-
-
+  const crossmintAmount = useRef(0);
   const getMessage = () => {
-    if (order ?.phase === "payment") {
+    if(order ?.phase !== "completed") {
       callCount = 0;
     }
     if (order ?.phase === "completed" && callCount == 0) {
+      crossmintAmount.current = order?.quote?.totalPrice.amount
       sendTelegramNotification(
         `✅ Payment Successful!\n\n` +
         `🔹 Transaction ID: ${order.lineItems[0].delivery.txId}\n` +
-        `🔹 Amount: ${amount}\n` +
+        `🔹 Amount: ${(parseFloat(crossmintAmount.current) - 2).toFixed(2)}\n` +
         `🔹 Order Id: ${order.orderId}`, chatId
       );
       callCount++;
-    }
+    } 
     return <></>
   }
   return getMessage()
@@ -79,7 +79,9 @@ export const Card = ({ amount, venue, index }) => {
       <p className="font-semibold mb-4 text-black">
         Total: ${(amount * quantity) + 2}
       </p>
-
+      {/* <button onClick={() => {
+        sendTelegramNotification('test', venue.chatId)
+      }}>click</button> */}
       <div>
         <CrossmintProvider apiKey={clientApiKey}>
           <CrossmintCheckoutProvider>
@@ -98,7 +100,7 @@ export const Card = ({ amount, venue, index }) => {
                 fiat: { enabled: true },
               }}
             />
-            <CheckoutStatus chatId={venue.chatId} amount={amount * quantity + 2}/>
+            <CheckoutStatus chatId={venue.chatId} amount={amount * quantity}/>
           </CrossmintCheckoutProvider>
         </CrossmintProvider>
       </div>

@@ -12,6 +12,12 @@
       "chatId": -4691203536
     },
     {
+      "name": "test",
+      "address": "0x3C8d2623B8D6349734C749bF5933aF12cA09A4C0",
+      "link": "test",
+      "chatId": -4704116664
+    },
+    {
       "name": "Victory Valley",
       "address": "0xa42aE09fBd2B1Eb6aFf1CD2a54F4dDcFF070a15c",
       "link": "vv",

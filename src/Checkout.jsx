@@ -26,20 +26,16 @@ window.Buffer = Buffer; // needed to use `signSmartContractData` in browser
 
 export default function WertCheckout() {
   const { address } = useParams();
-  // const [venue, setVenue] = useState(null);
-  // useEffect(() => {
-  //   const vendorResult = getVendorInformation(address);
-  //   if(vendorResult) {
-  //     setVenue(vendorResult)
-  //   } else {
-  //     toast.info("Please insert correct address.")
-  //   }
-  // }, [address])
+  const [venue, setVenue] = useState(null);
+  useEffect(() => {
+    const vendorResult = getVendorInformation(address);
+    console.log(vendorResult)
+  }, [address])
   
 
-  const venue = venuesData.find((v) => {
-    return v.link.toLowerCase() === (address ? address.toLowerCase() : "");
-  });
+  // const venue = venuesData.find((v) => {
+  //   return v.link.toLowerCase() === (address ? address.toLowerCase() : "");
+  // });
 
   return venue ? (
     <div className="min-h-screen bg-blue-50 py-10 px-4 w-full content-center">

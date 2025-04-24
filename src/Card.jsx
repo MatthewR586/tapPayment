@@ -53,7 +53,7 @@ export const Card = ({ amount, venue, index }) => {
   const [quantity, setQuantity] = useState(1)
 
   return (
-    <div className="bg-white rounded-xl shadow-md p-6">
+    <div className="flex flex-col justify-between bg-white rounded-xl shadow-md p-6">
       <h2 className="text-xl font-bold mb-2 text-black">${amount} USD</h2>
       <p className="text-gray-600 mb-5">Pay with credit card</p>
       <div className="mb-4">

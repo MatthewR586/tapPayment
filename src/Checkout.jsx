@@ -7,6 +7,7 @@ import { toast, ToastContainer } from "react-toastify";
 import logo from "./assets/logo.png";
 import venuesData from "./assets/vendors.json";
 import { Card } from "./Card";
+import { getVendorInformation } from "./services/api";
 
 const options = [
   { amount: 5 },
@@ -25,6 +26,17 @@ window.Buffer = Buffer; // needed to use `signSmartContractData` in browser
 
 export default function WertCheckout() {
   const { address } = useParams();
+  // const [venue, setVenue] = useState(null);
+  // useEffect(() => {
+  //   const vendorResult = getVendorInformation(address);
+  //   if(vendorResult) {
+  //     setVenue(vendorResult)
+  //   } else {
+  //     toast.info("Please insert correct address.")
+  //   }
+  // }, [address])
+  
+
   const venue = venuesData.find((v) => {
     return v.link.toLowerCase() === (address ? address.toLowerCase() : "");
   });

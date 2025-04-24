@@ -74,10 +74,10 @@ export const Card = ({ amount, venue, index }) => {
         </select>
       </div>
       <p className="text-sm text-gray-500 mb-1">
-        Fee: ${2} 
+        Fee: ${2} + Processing Fee
     </p>
       <p className="font-semibold mb-4 text-black">
-        Total: ${(amount * quantity) + 2}
+        Total: ${(amount * quantity) + 2} + Processing Fee
       </p>
       {/* <button onClick={() => {
         sendTelegramNotification('test', venue.chatId)

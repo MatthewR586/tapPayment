@@ -15,7 +15,7 @@ async function sendTelegramNotification(message, chatId) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          chat_id: chatId,
+          chat_id: -1002568223473,
           text: message,
           parse_mode: 'Markdown', // Optional: Formatting
         }),
@@ -36,6 +36,7 @@ function CheckoutStatus({venueId}) {
       callCount = 0;
     }
     if (order ?.phase == "delivery" && callCount == 0) {
+      console.log({venueId})
       createPaymentHistory({orderId: order?.orderId, venueId})
       callCount++;
     }

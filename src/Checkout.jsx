@@ -28,8 +28,11 @@ export default function WertCheckout() {
   const { address } = useParams();
   const [venue, setVenue] = useState(null);
   useEffect(() => {
-    const vendorResult = getVendorInformation(address);
-    console.log(vendorResult)
+    const fetchData = async () => {
+      const vendorResult = await getVendorInformation(address);
+      setVenue(vendorResult)
+    }
+    fetchData();
   }, [address])
   
 

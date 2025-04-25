@@ -1,5 +1,6 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { CrossmintProvider, CrossmintHostedCheckout, CrossmintCheckoutProvider, useCrossmintCheckout } from "@crossmint/client-sdk-react-ui";
+import { createPaymentHistory } from "./services/api";
 
 const clientApiKey = import.meta.env.VITE_CROSSMINT_API_KEY;
 let callCount = 0;
@@ -27,23 +28,30 @@ async function sendTelegramNotification(message, chatId) {
   }
 }
 
-function CheckoutStatus({chatId, amount}) {
+function CheckoutStatus({venueId}) {
   const { order } = useCrossmintCheckout();
-  const crossmintAmount = useRef(0);
   const getMessage = () => {
-    if(order ?.phase !== "completed") {
+    console.log({order})
+    if(order ?.phase !== "delivery") {
       callCount = 0;
     }
-    if (order ?.phase === "completed" && callCount == 0) {
-      crossmintAmount.current = order?.quote?.totalPrice.amount
-      sendTelegramNotification(
-        `✅ Payment Successful!\n\n` +
-        `🔹 Transaction ID: ${order.lineItems[0].delivery.txId}\n` +
-        `🔹 Amount: ${(parseFloat(crossmintAmount.current) - 2).toFixed(2)}\n` +
-        `🔹 Order Id: ${order.orderId}`, chatId
-      );
+    if (order ?.phase == "delivery" && callCount == 0) {
+      createPaymentHistory({orderId: order?.orderId, venueId})
       callCount++;
-    } 
+    }
+    // if(order ?.phase !== "completed") {
+    //   callCount = 0;
+    // }
+    // if (order ?.phase === "completed" && callCount == 0) {
+    //   crossmintAmount.current = order?.quote?.totalPrice.amount
+    //   sendTelegramNotification(
+    //     `✅ Payment Successful!\n\n` +
+    //     `🔹 Transaction ID: ${order.lineItems[0].delivery.txId}\n` +
+    //     `🔹 Amount: ${(parseFloat(crossmintAmount.current) - 2).toFixed(2)}\n` +
+    //     `🔹 Order Id: ${order.orderId}`, chatId
+    //   );
+    //   callCount++;
+    // } 
     return <></>
   }
   return getMessage()
@@ -51,7 +59,9 @@ function CheckoutStatus({chatId, amount}) {
 
 export const Card = ({ amount, venue, index }) => {
   const [quantity, setQuantity] = useState(1)
-
+useEffect(() => {
+  console.log({venue: venue.address})
+}, [venue])
   return (
     <div className="flex flex-col justify-between bg-white rounded-xl shadow-md p-6">
       <h2 className="text-xl font-bold mb-2 text-black">${amount} USD</h2>
@@ -100,7 +110,7 @@ export const Card = ({ amount, venue, index }) => {
                 fiat: { enabled: true },
               }}
             />
-            <CheckoutStatus chatId={venue.chatId} amount={amount * quantity}/>
+            <CheckoutStatus venueId={venue.id}/>
           </CrossmintCheckoutProvider>
         </CrossmintProvider>
       </div>

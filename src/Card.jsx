@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { CrossmintProvider, CrossmintHostedCheckout, CrossmintCheckoutProvider, useCrossmintCheckout } from "@crossmint/client-sdk-react-ui";
-import { createPaymentHistory } from "./services/api";
+import { CrossmintProvider, CrossmintHostedCheckout, CrossmintCheckoutProvider } from "@crossmint/client-sdk-react-ui";
 
 const clientApiKey = import.meta.env.VITE_CROSSMINT_API_KEY;
 let callCount = 0;
@@ -28,32 +27,12 @@ async function sendTelegramNotification(message, chatId) {
   }
 }
 
-function CheckoutStatus({venueId}) {
-  const { order } = useCrossmintCheckout();
-  const getMessage = () => {
-    console.log({order})
-      console.log({venueId})
-      createPaymentHistory({orderId: order?.orderId, venueId})
-    // if(order ?.phase !== "completed") {
-    //   callCount = 0;
-    // }
-    // if (order ?.phase === "completed" && callCount == 0) {
-    //   crossmintAmount.current = order?.quote?.totalPrice.amount
-    //   sendTelegramNotification(
-    //     `✅ Payment Successful!\n\n` +
-    //     `🔹 Transaction ID: ${order.lineItems[0].delivery.txId}\n` +
-    //     `🔹 Amount: ${(parseFloat(crossmintAmount.current) - 2).toFixed(2)}\n` +
-    //     `🔹 Order Id: ${order.orderId}`, chatId
-    //   );
-    //   callCount++;
-    // } 
-    return <></>
-  }
-  return getMessage()
-}
-
 export const Card = ({ amount, venue, index }) => {
   const [quantity, setQuantity] = useState(1)
+useEffect(() => {
+  console.log({venue: venue.address})
+}, [venue])
+
   return (
     <div className="flex flex-col justify-between bg-white rounded-xl shadow-md p-6">
       <h2 className="text-xl font-bold mb-2 text-black">${amount} USD</h2>
@@ -101,9 +80,7 @@ export const Card = ({ amount, venue, index }) => {
                 crypto: { enabled: false },
                 fiat: { enabled: true },
               }}
-              
             />
-            <CheckoutStatus venueId={venue.id}/>
           </CrossmintCheckoutProvider>
         </CrossmintProvider>
       </div>

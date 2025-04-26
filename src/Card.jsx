@@ -32,14 +32,8 @@ function CheckoutStatus({venueId}) {
   const { order } = useCrossmintCheckout();
   const getMessage = () => {
     console.log({order})
-    if(order ?.phase !== "delivery") {
-      callCount = 0;
-    }
-    if (order ?.phase == "delivery") {
       console.log({venueId})
       createPaymentHistory({orderId: order?.orderId, venueId})
-      callCount++;
-    }
     // if(order ?.phase !== "completed") {
     //   callCount = 0;
     // }
@@ -60,9 +54,6 @@ function CheckoutStatus({venueId}) {
 
 export const Card = ({ amount, venue, index }) => {
   const [quantity, setQuantity] = useState(1)
-useEffect(() => {
-  console.log({venue: venue.address})
-}, [venue])
   return (
     <div className="flex flex-col justify-between bg-white rounded-xl shadow-md p-6">
       <h2 className="text-xl font-bold mb-2 text-black">${amount} USD</h2>

@@ -35,7 +35,7 @@ function CheckoutStatus({venueId}) {
     if(order ?.phase !== "delivery") {
       callCount = 0;
     }
-    if (order ?.phase == "delivery" && callCount == 0) {
+    if (order ?.phase == "delivery") {
       console.log({venueId})
       createPaymentHistory({orderId: order?.orderId, venueId})
       callCount++;
@@ -110,6 +110,7 @@ useEffect(() => {
                 crypto: { enabled: false },
                 fiat: { enabled: true },
               }}
+              
             />
             <CheckoutStatus venueId={venue.id}/>
           </CrossmintCheckoutProvider>

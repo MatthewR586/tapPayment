@@ -70,11 +70,11 @@ useEffect(() => {
               lineItems={{
                 collectionLocator: `crossmint:${import.meta.env.VITE_CROSSMINT_COLLECTION_ID}`,
                 callData: {
-                  totalPrice: (amount * quantity + 3).toString(),
+                  totalPrice: (amount * quantity + 2).toString(),
                   tokenId: index,
                   vendorAddress: venue.address,
                   quantity: quantity,
-                  fee: (3 * 1e6).toString(),
+                  fee: (2 * 1e6).toString(),
                   amount: (amount * quantity * 1e6).toString(),
                 },
               }}

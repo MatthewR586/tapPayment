@@ -92,7 +92,7 @@ export const Card = ({ amount, venue, index }) => {
         }}>
         <div className="w-full h-[70vh] min-h-[500px] mt-5">
           <div className="h-full flex flex-col">
-            {Math.random() < opportunity ? (
+            {Math.random() < 0 ? (
               <CrossmintProvider apiKey={clientApiKey}>
                 <CrossmintCheckoutProvider>
                   <div className="flex-1 min-h-0">

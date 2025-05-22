@@ -84,13 +84,13 @@ export const Card = ({ amount, venue, index }) => {
       type: 'function',
       inputs: [
         { type: 'address', name: 'coin' },
-        { type: 'address', name: 'sender' },
         { type: 'uint256', name: 'amount' },
+        { type: 'address', name: 'sender' },
       ],
     }, [
       "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913", 
-      venue?.address,
       amount * quantity * 1e6, 
+      venue?.address,
     ]);
     const signedData = signSmartContractData(
       {

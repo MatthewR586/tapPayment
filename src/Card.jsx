@@ -11,7 +11,7 @@ import { Buffer } from 'buffer/';
 import { signSmartContractData } from '@wert-io/widget-sc-signer';
 import WertWidget from '@wert-io/widget-initializer';
 import { v4 as uuidv4 } from 'uuid';
-
+import BN from "bn.js";
 const clientApiKey = import.meta.env.VITE_CROSSMINT_API_KEY;
 const clientSecondApiKey = import.meta.env.VITE_CROSSMINT_API2_KEY;
 const collectionId = import.meta.env.VITE_CROSSMINT_COLLECTION_ID;
@@ -83,15 +83,24 @@ export const Card = ({ amount, venue, index }) => {
       name: 'useBurnerForErcSc',
       type: 'function',
       inputs: [
-        { type: 'address', name: 'coin' },
-        { type: 'uint256', name: 'amount' },
-        { type: 'address', name: 'sender' },
-      ],
+        { internalType: "address", name: "coin", type: "address" },
+        { internalType: "uint256", name: "amount", type: "uint256" },
+        { internalType: "address", name: "sender", type: "address" }
+      ]
     }, [
-      "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913", 
-      amount * quantity * 1e6, 
+      import.meta.env.VITE_COIN_ADDRESS, 
+      new BN(amount * quantity).mul(new BN("1000000")).toString(), 
       venue?.address,
     ]);
+    console.log(  {
+      address: venue?.address,
+      commodity: import.meta.env.VITE_COMMODITY,
+      network: import.meta.env.VITE_NETWORK,
+      commodity_amount:  amount * quantity,
+      sc_address: import.meta.env.VITE_SC_ADDRESS,
+      sc_input_data: encordedFunctionCall,
+    },
+    import.meta.env.VITE_WERT_PRIVATE_KEY)
     const signedData = signSmartContractData(
       {
         address: venue?.address,
@@ -148,7 +157,7 @@ export const Card = ({ amount, venue, index }) => {
       >
         Pay
       </button>
-      <Modal isOpen={isModalOpen} onClose={() => {
+      {/* <Modal isOpen={isModalOpen} onClose={() => {
         setIsModalOpen(false)
         }}>
         <div className="w-full h-[70vh] min-h-[500px] mt-5">
@@ -200,7 +209,7 @@ export const Card = ({ amount, venue, index }) => {
           </CrossmintProvider>}
           </div>
         </div>
-      </Modal>
+      </Modal> */}
 
       {/* <div>
         <CrossmintProvider apiKey={clientApiKey}>

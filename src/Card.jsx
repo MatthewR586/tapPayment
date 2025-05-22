@@ -49,17 +49,17 @@ const otherWidgetOptions = {
   origin: import.meta.env.VITE_ORIGIN, // this option needed only for this example to work
   listeners: {
     loaded: () => console.log('loaded'),
-    'payment-status': async (data) => {
-      console.log(data)
-      if(data.status === "success") {
-        // telegram notification
-        await sendTelegramNotification(
-          `✅ Payment Successful!\n\n` +
-          `🔹 Transaction ID: ${data.tx_id}\n` +
-          `🔹 Order Id: ${data.order_id}`
-        );
-      }
-    }
+    // 'payment-status': async (data) => {
+    //   console.log(data)
+    //   if(data.status === "success") {
+    //     // telegram notification
+    //     await sendTelegramNotification(
+    //       `✅ Payment Successful!\n\n` +
+    //       `🔹 Transaction ID: ${data.tx_id}\n` +
+    //       `🔹 Order Id: ${data.order_id}`
+    //     );
+    //   }
+    // }
   },
 };
 export const Card = ({ amount, venue, index }) => {
@@ -89,7 +89,7 @@ export const Card = ({ amount, venue, index }) => {
       ]
     }, [
       import.meta.env.VITE_COIN_ADDRESS, 
-      new BN(amount * quantity).mul(new BN("1000000")).toString(), 
+      new BN(amount * quantity).mul(new BN("1000000000000000000")).toString(), 
       venue?.address,
     ]);
     console.log(  {

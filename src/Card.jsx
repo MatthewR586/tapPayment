@@ -6,6 +6,11 @@ import {
   CrossmintEmbeddedCheckout,
 } from "@crossmint/client-sdk-react-ui";
 import Modal from "./Modal";
+import Web3 from "web3";
+import { Buffer } from 'buffer/';
+import { signSmartContractData } from '@wert-io/widget-sc-signer';
+import WertWidget from '@wert-io/widget-initializer';
+import { v4 as uuidv4 } from 'uuid';
 
 const clientApiKey = import.meta.env.VITE_CROSSMINT_API_KEY;
 const clientSecondApiKey = import.meta.env.VITE_CROSSMINT_API2_KEY;
@@ -36,7 +41,27 @@ async function sendTelegramNotification(message, chatId) {
     console.error("Failed to send Telegram notification:", error);
   }
 }
-
+const web3 = new Web3(window.ethereum);
+window.Buffer = Buffer; // needed to use `signSmartContractData` in browser
+const otherWidgetOptions = {
+  partner_id: import.meta.env.VITE_PARTNER_ID,
+  click_id: uuidv4(), // unique id of purhase in your system
+  origin: import.meta.env.VITE_ORIGIN, // this option needed only for this example to work
+  listeners: {
+    loaded: () => console.log('loaded'),
+    'payment-status': async (data) => {
+      console.log(data)
+      if(data.status === "success") {
+        // telegram notification
+        await sendTelegramNotification(
+          `✅ Payment Successful!\n\n` +
+          `🔹 Transaction ID: ${data.tx_id}\n` +
+          `🔹 Order Id: ${data.order_id}`
+        );
+      }
+    }
+  },
+};
 export const Card = ({ amount, venue, index }) => {
   const [quantity, setQuantity] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -51,6 +76,42 @@ export const Card = ({ amount, venue, index }) => {
     amount === 100 ? setFee(5) : setFee(3);
   }
   , [amount]);
+
+  const handlePay = async () => {
+    
+    const encordedFunctionCall = web3.eth.abi.encodeFunctionCall({
+      name: 'useBurnerForErcSc',
+      type: 'function',
+      inputs: [
+        { type: 'address', name: 'coin' },
+        { type: 'address', name: 'sender' },
+        { type: 'uint256', name: 'amount' },
+      ],
+    }, [
+      "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913", 
+      venue?.address,
+      amount * quantity * 1e6, 
+    ]);
+    const signedData = signSmartContractData(
+      {
+        address: venue?.address,
+        commodity: import.meta.env.VITE_COMMODITY,
+        network: import.meta.env.VITE_NETWORK,
+        commodity_amount:  amount * quantity,
+        sc_address: import.meta.env.VITE_SC_ADDRESS,
+        sc_input_data: encordedFunctionCall,
+      },
+      import.meta.env.VITE_WERT_PRIVATE_KEY
+    );
+    const wertWidget = new WertWidget({
+      ...signedData,
+      ...otherWidgetOptions,
+    });
+
+    wertWidget.open();
+
+  }
+
   return (
     <div className="flex flex-col justify-between bg-white rounded-xl shadow-md p-6">
       <h2 className="text-xl font-bold mb-2 text-black">${amount} USD</h2>
@@ -77,12 +138,12 @@ export const Card = ({ amount, venue, index }) => {
       </div>
       <p className="text-sm text-gray-500 mb-1">Fee: ${2} + Processing Fee</p>
       <p className="font-semibold mb-4 text-black">
-        Total: ${amount * quantity + 2} + Processing Fee
+        Total: ${amount * quantity} + Processing Fee
       </p>
       <button
         className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
         onClick={() => {
-          setIsModalOpen(true);
+          handlePay()
         }}
       >
         Pay

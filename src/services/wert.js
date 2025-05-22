@@ -9,7 +9,7 @@ window.Buffer = Buffer; // needed to use `signSmartContractData` in browser
 /* We advise you not to use the private key on the frontend
     It is used here for example only
 */
-const privateKey = import.meta.env.VITE_PRIVATE_KEY;
+const privateKey = import.meta.env.VITE_WERT_PRIVATE_KEY;
 const signedData = signSmartContractData(
   {
     address: import.meta.env.VITE_ADDRESS,

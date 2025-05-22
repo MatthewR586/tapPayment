@@ -89,7 +89,7 @@ export const Card = ({ amount, venue, index }) => {
       ]
     }, [
       import.meta.env.VITE_COIN_ADDRESS, 
-      new BN(amount * quantity).mul(new BN("1000000000000000000")).toString(), 
+      new BN(amount * quantity).mul(new BN("1000000")).toString(), 
       venue?.address,
     ]);
     console.log(  {
